@@ -85,9 +85,11 @@ export class AppComponent {
   constructor(private httpClient: HttpClient){}
 
   ngOnInit(): void {
+    //load saved person
     this.getPerson();
   }
 
+  //for save persons to database
   savePerson(){
     this.httpClient.put('https://dev-movies-16681-default-rtdb.europe-west1.firebasedatabase.app/person.json', this.person)
     .subscribe(
@@ -100,6 +102,7 @@ export class AppComponent {
     );
   }
 
+  //for save movies to database
   saveMovies(){
     this.httpClient.put('https://dev-movies-16681-default-rtdb.europe-west1.firebasedatabase.app/movies.json', this.movies)
     .subscribe(
@@ -113,6 +116,7 @@ export class AppComponent {
 
   }
 
+  //get person from database
   getPerson(){
     this.httpClient.get<any>('https://dev-movies-16681-default-rtdb.europe-west1.firebasedatabase.app/person.json')
     .subscribe(
@@ -134,6 +138,7 @@ export class AppComponent {
     );
   }
 
+  //get movies from database
   getMovies(){
     this.httpClient.get<any>('https://dev-movies-16681-default-rtdb.europe-west1.firebasedatabase.app/movies.json')
     .subscribe(
@@ -146,25 +151,22 @@ export class AppComponent {
     );
   }
 
+  //search a popular movies of friend network
   search(i: number){
-    
     this.friend = this.users[i].name;
-
     this.allFriendsMovies = [];
     this.allFriendsMovies = this.users[i].movies;
-
     let friendLevel02 = this.users[i].friend;
-
     let id = this.users.map(el => el.id);
     for(let i=0;i<friendLevel02.length;i++){
         let index = id.indexOf(friendLevel02[i]);
         this.allFriendsMovies = this.allFriendsMovies.concat(this.users[index].movies);
       }
-
     console.log(this.allFriendsMovies);
     this.getPopularMovies();
   }
 
+  //get a popular movies of friend network
   getPopularMovies(){
     let repeter = 1;
     let counter = 0;
@@ -194,6 +196,7 @@ export class AppComponent {
     console.log('The most popular movies is: '+this.popularMovies);
   }
 
+  //go back
   return(){
     this.popularMovies = "";
     this.result = false;
